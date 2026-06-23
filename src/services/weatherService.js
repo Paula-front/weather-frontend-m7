@@ -48,9 +48,9 @@ export const weatherService = {
 
   // Obtener imagen de ciudad desde Unsplash
   obtenerImagenCiudad(nombreCiudad) {
-    const query = encodeURIComponent(`${nombreCiudad} city`)
-    return `https://source.unsplash.com/800x400/?${query}`
-  },
+  const query = encodeURIComponent(`${nombreCiudad}, city skyline`)
+  return `https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=60`
+},
 
   // Obtener emoji según código de clima WMO
   obtenerEmoji(codigo) {

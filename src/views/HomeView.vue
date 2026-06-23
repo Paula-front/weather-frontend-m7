@@ -273,195 +273,316 @@ export default {
 </script>
 
 <style scoped>
+
 .home-page {
   min-height: 100vh;
   padding: 32px 24px;
+
+  background:
+    radial-gradient(circle at top right,#1e3a8a 0%,transparent 35%),
+    radial-gradient(circle at bottom left,#312e81 0%,transparent 35%),
+    #020817;
 }
 
 .home-container {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 32px;
 }
 
+/* HERO */
+
 .hero-section {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+
+  padding: 50px;
+
+  border-radius: 30px;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      rgba(2,6,23,.75),
+      rgba(2,6,23,.9)
+    ),
+    url('https://images.unsplash.com/photo-1506744038136-46273834b3fb');
+
+  background-size: cover;
+  background-position: center;
+
+  border: 1px solid rgba(255,255,255,.08);
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.35);
 }
 
 .hero-title {
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  line-height: 1.2;
-  margin-bottom: 8px;
+  font-size: 3rem;
+  font-weight: 800;
+  color: white;
+  line-height: 1.1;
+  margin-bottom: 12px;
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #60A5FA, #818CF8);
+  background: linear-gradient(
+    135deg,
+    #60a5fa,
+    #818cf8
+  );
+
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .hero-subtitle {
-  font-size: 16px;
-  color: var(--text-secondary);
+  font-size: 1.1rem;
+  color: rgba(255,255,255,.75);
+  margin-bottom: 30px;
 }
+
+/* BUSCADOR */
 
 .search-section {
   position: relative;
 }
 
 .search-wrap {
+
   display: flex;
   align-items: center;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(96, 165, 250, 0.3);
-  border-radius: 16px;
-  padding: 8px 8px 8px 16px;
+
+  gap: 12px;
+
+  padding: 10px;
+
+  border-radius: 18px;
+
+  backdrop-filter: blur(25px);
+
+  background:
+    rgba(255,255,255,.08);
+
+  border:
+    1px solid rgba(255,255,255,.08);
 }
 
 .search-icon {
-  font-size: 18px;
-  flex-shrink: 0;
+  font-size: 20px;
 }
 
 .search-input {
+
   flex: 1;
+
   background: transparent;
   border: none;
   outline: none;
-  color: var(--text-primary);
-  font-size: 15px;
-  font-family: inherit;
+
+  color: white;
+
+  font-size: 16px;
 }
 
 .search-input::placeholder {
-  color: var(--text-muted);
+  color: rgba(255,255,255,.5);
 }
 
 .search-btn {
-  flex-shrink: 0;
-  border-radius: 10px !important;
-  padding: 10px 20px !important;
+  border-radius: 12px !important;
 }
 
+/* SUGERENCIAS */
+
 .sugerencias {
+
   position: absolute;
-  top: calc(100% + 8px);
+
+  top: calc(100% + 10px);
+
   left: 0;
   right: 0;
-  background: #0D1B3E;
-  border: 1px solid rgba(96, 165, 250, 0.2);
-  border-radius: 12px;
+
+  z-index: 100;
+
+  background:
+    #0f172a;
+
+  border-radius: 18px;
+
   overflow: hidden;
-  z-index: 50;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,.4);
 }
 
 .sugerencia-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  padding: 12px 16px;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  color: var(--text-primary);
-  font-size: 14px;
-  cursor: pointer;
-  text-align: left;
-  font-family: inherit;
-  transition: background 0.2s;
-}
 
-.sugerencia-item:last-child {
-  border-bottom: none;
+  width: 100%;
+
+  padding: 14px 18px;
+
+  background: transparent;
+
+  border: none;
+
+  color: white;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition: .25s;
 }
 
 .sugerencia-item:hover {
-  background: rgba(96, 165, 250, 0.1);
+
+  background:
+    rgba(59,130,246,.15);
 }
 
 .sugerencia-region {
-  font-size: 12px;
-  color: var(--text-muted);
+
   margin-left: auto;
+
+  color:
+    rgba(255,255,255,.5);
+
+  font-size: .8rem;
 }
 
-.ciudades-sugeridas {
+/* SECCIONES */
+
+.section-title {
+
   display: flex;
-  flex-direction: column;
-  gap: 24px;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 1.8rem;
+
+  color: white;
 }
 
-.seccion-ciudades {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.section-icon {
+  font-size: 1.5rem;
 }
+
+/* CHIPS */
 
 .ciudades-grid {
+
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+
+  gap: 12px;
 }
 
 .ciudad-chip {
-  padding: 8px 18px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(96, 165, 250, 0.2);
-  border-radius: 20px;
-  color: var(--text-secondary);
-  font-size: 14px;
+
+  padding: 12px 22px;
+
+  border-radius: 999px;
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  background:
+    rgba(255,255,255,.05);
+
+  color: white;
+
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: inherit;
+
+  transition: .3s;
 }
 
 .ciudad-chip:hover {
-  background: rgba(96, 165, 250, 0.15);
-  color: var(--accent);
-  border-color: var(--accent);
-  transform: translateY(-2px);
+
+  transform:
+    translateY(-3px);
+
+  background:
+    linear-gradient(
+      135deg,
+      #3b82f6,
+      #6366f1
+    );
+
+  border-color: transparent;
 }
+
+/* RESULTADO */
 
 .clima-resultado {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
 
-.pronostico-section {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+
+  gap: 28px;
 }
 
 .pronostico-grid {
+
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
+
+  grid-template-columns:
+    repeat(auto-fit,minmax(130px,1fr));
+
+  gap: 12px;
 }
 
-.alertas-section {
+.loading-container {
+
   display: flex;
+
   flex-direction: column;
-  gap: 8px;
+
+  align-items: center;
+
+  gap: 16px;
+
+  padding: 60px;
+
+  color: white;
 }
 
-@media (max-width: 768px) {
-  .hero-title { font-size: 1.6rem; }
-  .pronostico-grid { grid-template-columns: repeat(4, 1fr); }
+.spinner {
+
+  width: 60px;
+  height: 60px;
+
+  border-radius: 50%;
+
+  border: 5px solid rgba(255,255,255,.1);
+
+  border-top-color: #60a5fa;
+
+  animation: spin 1s linear infinite;
 }
 
-@media (max-width: 480px) {
-  .pronostico-grid { grid-template-columns: repeat(2, 1fr); }
+@keyframes spin {
+
+  to {
+    transform: rotate(360deg);
+  }
 }
+
+@media (max-width:768px){
+
+  .hero-section{
+    padding:30px;
+  }
+
+  .hero-title{
+    font-size:2rem;
+  }
+
+}
+
 </style>

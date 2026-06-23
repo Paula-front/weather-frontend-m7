@@ -1,122 +1,83 @@
 <template>
-  <div class="city-image-wrap">
-    <img
-      :src="imagenUrl"
-      :alt="`${ciudad}, ${pais}`"
-      class="city-image"
-      :class="{ 'image-loaded': cargada }"
-      @load="onLoad"
-      @error="onError"
-    />
-    <div class="city-image-overlay">
-      <div class="city-image-info">
-        <h3 class="city-image-nombre">{{ ciudad }}</h3>
-        <p class="city-image-pais">{{ pais }}</p>
-      </div>
+  <div class="stat-card card">
+    <div class="stat-icon-wrap">
+      <span class="stat-icon">{{ icono }}</span>
     </div>
-    <div v-if="!cargada" class="skeleton city-image-skeleton"></div>
+    <div class="stat-info">
+      <p class="stat-valor">{{ valor }}</p>
+      <p class="stat-label">{{ label }}</p>
+      <p v-if="sublabel" class="stat-sublabel">{{ sublabel }}</p>
+    </div>
   </div>
 </template>
 
 <script>
-import weatherService from '../services/weatherService.js'
-
 export default {
-  name: 'CityImage',
+  name: 'StatCard',
   props: {
-    ciudad: { type: String, default: '' },
-    pais: { type: String, default: '' }
-  },
-  data() {
-    return {
-      cargada: false,
-      error: false
-    }
-  },
-  computed: {
-    imagenUrl() {
-      if (this.error) {
-        return 'https://source.unsplash.com/800x400/?city,skyline,buildings'
-      }
-      return weatherService.obtenerImagenCiudad(this.ciudad)
-    }
-  },
-  watch: {
-    ciudad() {
-      this.cargada = false
-      this.error = false
-    }
-  },
-  methods: {
-    onLoad() {
-      this.cargada = true
-    },
-    onError() {
-      this.error = true
-      this.cargada = true
-    }
+    icono: { type: String, default: '📊' },
+    valor: { type: String, required: true },
+    label: { type: String, required: true },
+    sublabel: { type: String, default: '' }
   }
 }
 </script>
 
 <style scoped>
-.city-image-wrap {
-  position: relative;
-  width: 100%;
-  height: 220px;
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-}
-
-.city-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.image-loaded {
-  opacity: 1;
-}
-
-.city-image-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(10, 15, 30, 0.85) 0%,
-    rgba(10, 15, 30, 0.2) 60%,
-    transparent 100%
-  );
+.stat-card {
   display: flex;
-  align-items: flex-end;
-  padding: 20px;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px 16px !important;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  transition: all 0.2s ease;
 }
 
-.city-image-info {
+.stat-card:hover {
+  background: rgba(96, 165, 250, 0.06) !important;
+  border-color: rgba(96, 165, 250, 0.15) !important;
+  transform: translateY(-2px);
+}
+
+.stat-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(96, 165, 250, 0.1);
+  border: 1px solid rgba(96, 165, 250, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-icon {
+  font-size: 24px;
+}
+
+.stat-info {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-.city-image-nombre {
+.stat-valor {
   font-size: 22px;
   font-weight: 700;
-  color: white;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  color: var(--text-primary);
+  line-height: 1;
 }
 
-.city-image-pais {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.7);
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+.stat-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
 }
 
-.city-image-skeleton {
-  position: absolute;
-  inset: 0;
-  border-radius: 0;
+.stat-sublabel {
+  font-size: 11px;
+  color: var(--text-muted);
 }
 </style>
