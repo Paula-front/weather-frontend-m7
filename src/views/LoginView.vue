@@ -1,59 +1,59 @@
 <template>
-  <div class="login-page tema-oscuro">
+  <div class="login-page">
     <div class="login-container">
-
-      <!-- Header -->
       <div class="login-header">
         <RouterLink to="/" class="back-link">← Volver al inicio</RouterLink>
+
         <div class="login-logo">
           <span class="logo-icon">🌤️</span>
           <h1 class="logo-text">ClimaApp</h1>
         </div>
-        <p class="login-subtitle">El clima de cualquier ciudad, personalizado para ti</p>
+
+        <p class="login-subtitle">
+          El clima de cualquier ciudad, personalizado para ti
+        </p>
       </div>
 
-      <!-- Card de login -->
-      <div class="login-card card">
-
+      <div class="login-card">
         <h2 class="card-title">Iniciar sesión</h2>
 
-        <!-- Alerta de error -->
         <div v-if="errorGeneral" class="alerta alerta-error">
           ⚠️ {{ errorGeneral }}
         </div>
 
-        <!-- Alerta de éxito -->
         <div v-if="exitoso" class="alerta alerta-success">
           ✅ ¡Bienvenido/a! Redirigiendo...
         </div>
 
-        <!-- Formulario -->
-        <form @submit.prevent="handleLogin">
-
+        <form class="login-form" @submit.prevent="handleLogin">
           <div class="input-group">
-            <label class="input-label">Correo electrónico</label>
+            <label>Correo electrónico</label>
+
             <input
               v-model="form.email"
               type="email"
-              class="input-field"
               :class="{ 'input-error': errores.email }"
               placeholder="tu@correo.com"
               autocomplete="email"
             />
-            <span v-if="errores.email" class="error-msg">{{ errores.email }}</span>
+
+            <span v-if="errores.email" class="error-msg">
+              {{ errores.email }}
+            </span>
           </div>
 
           <div class="input-group">
-            <label class="input-label">Contraseña</label>
+            <label>Contraseña</label>
+
             <div class="password-wrap">
               <input
                 v-model="form.password"
                 :type="mostrarPassword ? 'text' : 'password'"
-                class="input-field"
                 :class="{ 'input-error': errores.password }"
                 placeholder="••••••••"
                 autocomplete="current-password"
               />
+
               <button
                 type="button"
                 class="toggle-password"
@@ -62,31 +62,29 @@
                 {{ mostrarPassword ? '🙈' : '👁️' }}
               </button>
             </div>
-            <span v-if="errores.password" class="error-msg">{{ errores.password }}</span>
+
+            <span v-if="errores.password" class="error-msg">
+              {{ errores.password }}
+            </span>
           </div>
 
-          <button
-            type="submit"
-            class="btn btn-primary btn-full btn-lg mt-8"
-            :disabled="cargando"
-          >
+          <button type="submit" class="submit-btn" :disabled="cargando">
             <span v-if="cargando">⏳ Ingresando...</span>
             <span v-else>✨ Iniciar sesión</span>
           </button>
-
         </form>
 
         <div class="login-footer">
-          <p class="text-muted">¿No tienes cuenta?
-            <RouterLink to="/registro" class="text-accent">Regístrate gratis</RouterLink>
+          <p>
+            ¿No tienes cuenta?
+            <RouterLink to="/registro">Regístrate gratis</RouterLink>
           </p>
         </div>
-
       </div>
 
-      <!-- Usuarios de prueba -->
-      <div class="demo-card card">
+      <div class="demo-card">
         <p class="demo-title">👥 Usuarios de prueba</p>
+
         <div class="demo-users">
           <button
             v-for="usuario in usuariosPrueba"
@@ -94,16 +92,19 @@
             class="demo-user-btn"
             @click="cargarUsuarioPrueba(usuario)"
           >
-            <div class="demo-avatar">{{ usuario.nombre.substring(0,2).toUpperCase() }}</div>
+            <div class="demo-avatar">
+              {{ usuario.nombre.substring(0, 2).toUpperCase() }}
+            </div>
+
             <div class="demo-info">
               <span class="demo-nombre">{{ usuario.nombre }}</span>
               <span class="demo-email">{{ usuario.email }}</span>
             </div>
+
             <span class="demo-arrow">→</span>
           </button>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -114,6 +115,7 @@ import authService from '../services/authService.js'
 
 export default {
   name: 'LoginView',
+
   data() {
     return {
       form: {
@@ -131,22 +133,31 @@ export default {
       ]
     }
   },
+
   methods: {
     ...mapActions('auth', ['login']),
+
     async handleLogin() {
       this.errorGeneral = ''
       this.errores = {}
 
       const { valido, errores } = authService.validarFormularioLogin(this.form)
+
       if (!valido) {
         this.errores = errores
         return
       }
 
       this.cargando = true
+
       try {
-        await this.login({ email: this.form.email, password: this.form.password })
+        await this.login({
+          email: this.form.email,
+          password: this.form.password
+        })
+
         this.exitoso = true
+
         setTimeout(() => {
           this.$router.push('/')
         }, 1000)
@@ -156,6 +167,7 @@ export default {
         this.cargando = false
       }
     },
+
     cargarUsuarioPrueba(usuario) {
       this.form.email = usuario.email
       this.form.password = usuario.password
@@ -169,19 +181,20 @@ export default {
 <style scoped>
 .login-page {
   min-height: 100vh;
+  padding: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
-  background: linear-gradient(160deg, #0A0F1E 0%, #0D1B3E 60%, #1a0d2e 100%);
+  background:
+    radial-gradient(circle at top left, rgba(96, 165, 250, 0.18), transparent 35%),
+    linear-gradient(160deg, #0a0f1e 0%, #0d1b3e 60%, #1a0d2e 100%);
 }
 
 .login-container {
   width: 100%;
-  max-width: 420px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  max-width: 460px;
+  display: grid;
+  gap: 20px;
 }
 
 .login-header {
@@ -190,156 +203,264 @@ export default {
 
 .back-link {
   display: inline-block;
-  color: var(--text-muted);
-  text-decoration: none;
-  font-size: 13px;
   margin-bottom: 20px;
-  transition: color 0.2s;
+  color: #94a3b8;
+  text-decoration: none;
+  font-weight: 600;
 }
 
 .back-link:hover {
-  color: var(--accent);
+  color: #60a5fa;
 }
 
 .login-logo {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 14px;
   margin-bottom: 8px;
 }
 
 .logo-icon {
-  font-size: 36px;
-  filter: drop-shadow(0 0 20px rgba(96, 165, 250, 0.5));
+  font-size: 44px;
+  filter: drop-shadow(0 0 18px rgba(96, 165, 250, 0.45));
 }
 
 .logo-text {
-  font-size: 28px;
-  font-weight: 700;
-  background: linear-gradient(135deg, #60A5FA, #818CF8);
+  font-size: 34px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #60a5fa, #818cf8);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .login-subtitle {
-  color: var(--text-muted);
-  font-size: 14px;
+  color: #94a3b8;
+  font-size: 1rem;
 }
 
-.login-card {
-  background: rgba(255, 255, 255, 0.05) !important;
-  border: 1px solid rgba(96, 165, 250, 0.2) !important;
-  padding: 28px !important;
+.login-card,
+.demo-card {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(96, 165, 250, 0.28);
+  border-radius: 24px;
+  padding: 30px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(16px);
 }
 
 .card-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 20px;
+  font-size: 1.6rem;
+  color: #f8fafc;
+  margin-bottom: 22px;
+}
+
+.login-form {
+  display: grid;
+  gap: 16px;
+}
+
+.input-group {
+  display: grid;
+  gap: 7px;
+}
+
+.input-group label {
+  color: #e2e8f0;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.input-group input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 42, 0.9);
+  color: #f8fafc;
+  font-size: 1rem;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.input-group input::placeholder {
+  color: #94a3b8;
+}
+
+.input-group input:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.16);
+}
+
+.input-error {
+  border-color: #f87171 !important;
 }
 
 .password-wrap {
   position: relative;
 }
 
-.password-wrap .input-field {
-  padding-right: 44px;
+.password-wrap input {
+  padding-right: 48px;
 }
 
 .toggle-password {
   position: absolute;
-  right: 12px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  background: none;
   border: none;
+  background: transparent;
   cursor: pointer;
-  font-size: 16px;
-  padding: 4px;
+  font-size: 1.1rem;
+}
+
+.error-msg {
+  color: #fca5a5;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.alerta {
+  padding: 13px 15px;
+  border-radius: 14px;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+.alerta-error {
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  color: #fecaca;
+}
+
+.alerta-success {
+  background: rgba(34, 197, 94, 0.14);
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  color: #bbf7d0;
+}
+
+.submit-btn {
+  width: 100%;
+  min-height: 52px;
+  border: none;
+  border-radius: 16px;
+  margin-top: 8px;
+  background: linear-gradient(135deg, #3b82f6, #7c3aed);
+  color: white;
+  font-size: 1.05rem;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 14px 30px rgba(59, 130, 246, 0.28);
+  transition: 0.25s;
+}
+
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 
 .login-footer {
-  margin-top: 20px;
+  margin-top: 22px;
   text-align: center;
-  font-size: 14px;
+  color: #e2e8f0;
+  font-weight: 700;
+}
+
+.login-footer a {
+  color: #60a5fa;
+  font-weight: 900;
 }
 
 .demo-card {
-  background: rgba(96, 165, 250, 0.06) !important;
-  border: 1px solid rgba(96, 165, 250, 0.15) !important;
-  padding: 16px !important;
+  padding: 20px;
 }
 
 .demo-title {
-  font-size: 12px;
-  color: var(--text-muted);
+  color: #94a3b8;
   text-transform: uppercase;
-  letter-spacing: 0.07em;
-  margin-bottom: 12px;
+  letter-spacing: 0.08em;
+  font-size: 0.82rem;
+  font-weight: 900;
+  margin-bottom: 14px;
 }
 
 .demo-users {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: grid;
+  gap: 10px;
 }
 
 .demo-user-btn {
+  width: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 16px;
+  padding: 14px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.06);
   cursor: pointer;
-  transition: all 0.2s ease;
-  width: 100%;
+  transition: 0.25s;
   font-family: inherit;
 }
 
 .demo-user-btn:hover {
-  background: rgba(96, 165, 250, 0.1);
-  border-color: rgba(96, 165, 250, 0.3);
+  background: rgba(96, 165, 250, 0.14);
+  border-color: rgba(96, 165, 250, 0.35);
+  transform: translateY(-2px);
 }
 
 .demo-avatar {
-  width: 32px;
-  height: 32px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #3B82F6, #8B5CF6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  color: white;
-  font-weight: 600;
+  display: grid;
+  place-items: center;
   flex-shrink: 0;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: white;
+  font-weight: 900;
 }
 
 .demo-info {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
   flex: 1;
+  display: grid;
+  text-align: left;
 }
 
 .demo-nombre {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-primary);
+  color: #f8fafc;
+  font-weight: 800;
 }
 
 .demo-email {
-  font-size: 11px;
-  color: var(--text-muted);
+  color: #94a3b8;
+  font-size: 0.85rem;
 }
 
 .demo-arrow {
-  color: var(--accent);
-  font-size: 14px;
+  color: #60a5fa;
+  font-weight: 900;
+}
+
+@media (max-width: 520px) {
+  .login-page {
+    padding: 18px;
+    align-items: flex-start;
+  }
+
+  .login-card,
+  .demo-card {
+    padding: 22px;
+  }
+
+  .logo-text {
+    font-size: 28px;
+  }
 }
 </style>
