@@ -4,7 +4,7 @@
       <div class="hero-content">
         <p class="hero-kicker">🌦️ ClimaApp</p>
 
-        <h1>Consulta el clima actual y semanal de tus ciudades favoritas</h1>
+        <h1>Consulta el Clima Actual y Semanal de tus Ciudades Favoritas.</h1>
 
         <p class="hero-subtitle">
           Busca una ciudad, revisa temperatura, viento, humedad, alertas y guarda tus lugares favoritos.
