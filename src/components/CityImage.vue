@@ -18,6 +18,19 @@
 </template>
 
 <script>
+import arica from '../assets/images/cities/arica.jpg'
+import antofagasta from '../assets/images/cities/antofagasta.jpg'
+import laSerena from '../assets/images/cities/la-serena.jpg'
+import valparaiso from '../assets/images/cities/valparaiso.jpg'
+import santiago from '../assets/images/cities/santiago.jpg'
+import talca from '../assets/images/cities/talca.jpg'
+import concepcion from '../assets/images/cities/concepcion.jpg'
+import valdivia from '../assets/images/cities/valdivia.jpg'
+import puertoMontt from '../assets/images/cities/puerto-montt.jpg'
+import puntaArenas from '../assets/images/cities/punta-arenas.jpg'
+import juanFernandez from '../assets/images/cities/juan-fernandez.jpg'
+import rapaNui from '../assets/images/cities/rapa-nui.jpg'
+
 export default {
   name: 'CityImage',
 
@@ -35,17 +48,18 @@ export default {
   computed: {
     imageUrl() {
       const imagenes = {
-        santiago:
-          'https://images.unsplash.com/photo-1549839351-11d979815b0e?auto=format&fit=crop&w=1200&q=80',
-
-        valparaiso:
-          'https://images.unsplash.com/photo-1589820296156-2454bb8a6ad1?auto=format&fit=crop&w=1200&q=80',
-
-        concepcion:
-          'https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=80',
-
-        antofagasta:
-          'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
+        arica,
+        antofagasta,
+        'la serena': laSerena,
+        valparaiso,
+        santiago,
+        talca,
+        concepcion,
+        valdivia,
+        'puerto montt': puertoMontt,
+        'punta arenas': puntaArenas,
+        'juan fernandez': juanFernandez,
+        'rapa nui': rapaNui,
 
         tokio:
           'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1200&q=80',
@@ -69,16 +83,21 @@ export default {
           'https://images.unsplash.com/photo-1529154036614-a60975f5c760?auto=format&fit=crop&w=1200&q=80',
 
         dubai:
-          'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80'
+          'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80',
+
+        'ciudad de mexico':
+          'https://images.unsplash.com/photo-1518105779142-d975f22f1b0a?auto=format&fit=crop&w=1200&q=80',
+
+        'buenos aires':
+          'https://images.unsplash.com/photo-1589909202802-8f4aadce1849?auto=format&fit=crop&w=1200&q=80'
       }
 
       const key = this.normalize(this.ciudad)
-
       return imagenes[key] || this.fallbackImage
     },
 
     fallbackImage() {
-      return 'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80'
+      return 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1f?auto=format&fit=crop&w=1200&q=80'
     }
   },
 

@@ -4,13 +4,20 @@
 export const weatherService = {
 
   // Ciudades sugeridas de Chile
-  ciudadesChile: [
-    { nombre: 'Santiago', pais: 'Chile', lat: -33.4489, lon: -70.6693 },
-    { nombre: 'Valparaíso', pais: 'Chile', lat: -33.0472, lon: -71.6127 },
-    { nombre: 'Concepción', pais: 'Chile', lat: -36.8201, lon: -73.0444 },
-    { nombre: 'Antofagasta', pais: 'Chile', lat: -23.6509, lon: -70.3975 },
-    { nombre: 'Puerto Montt', pais: 'Chile', lat: -41.4693, lon: -72.9424 }
-  ],
+ ciudadesChile: [
+  { nombre: 'Arica', pais: 'Chile', lat: -18.4783, lon: -70.3126 },
+  { nombre: 'Antofagasta', pais: 'Chile', lat: -23.6509, lon: -70.3975 },
+  { nombre: 'La Serena', pais: 'Chile', lat: -29.9027, lon: -71.2520 },
+  { nombre: 'Valparaíso', pais: 'Chile', lat: -33.0472, lon: -71.6127 },
+  { nombre: 'Santiago', pais: 'Chile', lat: -33.4489, lon: -70.6693 },
+  { nombre: 'Talca', pais: 'Chile', lat: -35.4264, lon: -71.6554 },
+  { nombre: 'Concepción', pais: 'Chile', lat: -36.8201, lon: -73.0444 },
+  { nombre: 'Valdivia', pais: 'Chile', lat: -39.8142, lon: -73.2459 },
+  { nombre: 'Puerto Montt', pais: 'Chile', lat: -41.4693, lon: -72.9424 },
+  { nombre: 'Punta Arenas', pais: 'Chile', lat: -53.1638, lon: -70.9171 },
+  { nombre: 'Juan Fernández', pais: 'Chile', lat: -33.6407, lon: -78.8426 },
+  { nombre: 'Rapa Nui', pais: 'Chile', lat: -27.1127, lon: -109.3497 }
+],
 
   // Capitales del mundo
   ciudadesMundo: [
