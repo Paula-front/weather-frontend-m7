@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import store from '../store/index.js'
 
 import HomeView from '../views/HomeView.vue'
@@ -40,7 +40,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes
 })
 
@@ -48,13 +48,11 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const isAuthenticated = store.getters['auth/isAuthenticated']
 
-  // Ruta protegida y no está logueado
   if (to.meta.requiereAuth && !isAuthenticated) {
     next({ name: 'Login' })
     return
   }
 
-  // Ruta solo para invitados y ya está logueado
   if (to.meta.soloInvitados && isAuthenticated) {
     next({ name: 'Home' })
     return
