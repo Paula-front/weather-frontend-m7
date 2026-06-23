@@ -1,67 +1,63 @@
 <template>
-  <div class="weather-card card card-accent">
+  <article class="weather-card">
+    <div class="weather-main">
+      <div>
+        <p class="source">Fuente: Open-Meteo</p>
 
-    <!-- Header ciudad -->
-    <div class="wc-header">
-      <div class="wc-ciudad-info">
-        <h2 class="wc-ciudad">{{ ciudad?.nombre }}</h2>
-        <p class="wc-pais">📍 {{ ciudad?.pais }}</p>
-        <p class="wc-fuente">Fuente: Open-Meteo</p>
+        <h2>{{ ciudad?.nombre }}</h2>
+        <p class="country">📍 {{ ciudad?.pais }}</p>
+
+        <div class="temperature">
+          <span class="temp-number">{{ temperaturaFormateada }}</span>
+          <span class="temp-unit">{{ unidad === 'F' ? '°F' : '°C' }}</span>
+        </div>
+
+        <p class="feels">
+          Sensación térmica {{ sensacionFormateada }}{{ unidad === 'F' ? '°F' : '°C' }}
+        </p>
       </div>
-      <div class="wc-emoji-wrap">
-        <span class="wc-emoji">{{ emoji }}</span>
-        <p class="wc-desc">{{ descripcion }}</p>
+
+      <div class="weather-icon-box">
+        <span class="weather-icon">{{ emoji }}</span>
+        <p>{{ descripcion }}</p>
       </div>
     </div>
 
-    <!-- Temperatura principal -->
-    <div class="wc-temp-section">
-      <div class="wc-temp-main">
-        <span class="wc-temp-num">{{ temperaturaFormateada }}</span>
-        <span class="wc-temp-unit">{{ unidad === 'F' ? '°F' : '°C' }}</span>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <span>💧</span>
+        <strong>{{ clima?.humedad }}%</strong>
+        <small>Humedad</small>
       </div>
-      <p class="wc-sensacion">
-        Sensación térmica {{ sensacionFormateada }}{{ unidad === 'F' ? '°F' : '°C' }}
-      </p>
-    </div>
 
-    <!-- Stats -->
-    <div class="wc-stats grid-4">
-      <div class="wc-stat">
-        <span class="wc-stat-icon">💧</span>
-        <span class="wc-stat-val">{{ clima?.humedad }}%</span>
-        <span class="wc-stat-lbl">Humedad</span>
+      <div class="stat-item">
+        <span>🌬️</span>
+        <strong>{{ clima?.viento }} km/h</strong>
+        <small>Viento</small>
       </div>
-      <div class="wc-stat">
-        <span class="wc-stat-icon">🌬️</span>
-        <span class="wc-stat-val">{{ clima?.viento }} km/h</span>
-        <span class="wc-stat-lbl">Viento</span>
+
+      <div class="stat-item">
+        <span>👁️</span>
+        <strong>{{ clima?.visibilidad }} km</strong>
+        <small>Visibilidad</small>
       </div>
-      <div class="wc-stat">
-        <span class="wc-stat-icon">👁️</span>
-        <span class="wc-stat-val">{{ clima?.visibilidad }} km</span>
-        <span class="wc-stat-lbl">Visibilidad</span>
-      </div>
-      <div class="wc-stat">
-        <span class="wc-stat-icon">🌡️</span>
-        <span class="wc-stat-val">{{ sensacionFormateada }}°</span>
-        <span class="wc-stat-lbl">Sensación</span>
+
+      <div class="stat-item">
+        <span>🌡️</span>
+        <strong>{{ sensacionFormateada }}°</strong>
+        <small>Sensación</small>
       </div>
     </div>
 
-    <!-- Botón favorito -->
-    <div class="wc-footer">
-      <button
-        class="btn btn-outline btn-full"
-        :class="{ 'btn-favorito-activo': esFavorito }"
-        @click="toggleFavorito"
-      >
-        <span v-if="esFavorito">❤️ En favoritos</span>
-        <span v-else>🤍 Agregar a favoritos</span>
-      </button>
-    </div>
-
-  </div>
+    <button
+      class="favorite-btn"
+      :class="{ active: esFavorito }"
+      @click="toggleFavorito"
+    >
+      <span v-if="esFavorito">❤️ En favoritos</span>
+      <span v-else>🤍 Agregar a favoritos</span>
+    </button>
+  </article>
 </template>
 
 <script>
@@ -70,39 +66,62 @@ import weatherService from '../services/weatherService.js'
 
 export default {
   name: 'WeatherCard',
+
   props: {
-    ciudad: { type: Object, default: null },
-    clima: { type: Object, default: null },
-    unidad: { type: String, default: 'C' }
+    ciudad: {
+      type: Object,
+      default: null
+    },
+    clima: {
+      type: Object,
+      default: null
+    },
+    unidad: {
+      type: String,
+      default: 'C'
+    }
   },
+
   emits: ['agregar-favorito'],
+
   computed: {
     ...mapGetters('auth', ['favoritos', 'isAuthenticated']),
+
     emoji() {
       return weatherService.obtenerEmoji(this.clima?.codigo)
     },
+
     descripcion() {
       return weatherService.obtenerDescripcion(this.clima?.codigo)
     },
+
     temperaturaFormateada() {
       if (!this.clima) return '--'
+
       if (this.unidad === 'F') {
         return weatherService.celsiusAFahrenheit(this.clima.temperatura)
       }
+
       return this.clima.temperatura
     },
+
     sensacionFormateada() {
       if (!this.clima) return '--'
+
       if (this.unidad === 'F') {
         return weatherService.celsiusAFahrenheit(this.clima.sensacionTermica)
       }
+
       return this.clima.sensacionTermica
     },
+
     esFavorito() {
       if (!this.ciudad) return false
+
       return this.favoritos.some(f => f.nombre === this.ciudad.nombre)
     }
   },
+
   methods: {
     toggleFavorito() {
       if (this.esFavorito) {
@@ -117,125 +136,156 @@ export default {
 
 <style scoped>
 .weather-card {
-  background: linear-gradient(135deg,
-    rgba(30, 58, 95, 0.8) 0%,
-    rgba(26, 31, 78, 0.8) 60%,
-    rgba(45, 27, 78, 0.8) 100%) !important;
-  padding: 28px !important;
+  background:
+    linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #4338ca 100%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 26px;
+  padding: 24px;
+  color: white;
+  box-shadow: 0 22px 55px rgba(30, 64, 175, 0.25);
 }
 
-.wc-header {
+.weather-main {
   display: flex;
   justify-content: space-between;
+  gap: 20px;
   align-items: flex-start;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
 }
 
-.wc-ciudad {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 4px;
-}
-
-.wc-pais {
-  font-size: 14px;
-  color: var(--text-secondary);
-  margin-bottom: 4px;
-}
-
-.wc-fuente {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-.wc-emoji-wrap {
-  text-align: center;
-}
-
-.wc-emoji {
-  font-size: 56px;
-  display: block;
-  filter: drop-shadow(0 0 20px rgba(96, 165, 250, 0.4));
-  line-height: 1;
-  margin-bottom: 6px;
-}
-
-.wc-desc {
-  font-size: 13px;
-  color: var(--text-secondary);
-}
-
-.wc-temp-section {
-  margin-bottom: 24px;
-}
-
-.wc-temp-main {
-  display: flex;
-  align-items: flex-start;
-  gap: 4px;
-  line-height: 1;
+.source {
+  font-size: 0.72rem;
+  color: #bfdbfe;
   margin-bottom: 8px;
 }
 
-.wc-temp-num {
-  font-size: 72px;
+.weather-main h2 {
+  font-size: 1.8rem;
+  margin-bottom: 4px;
+}
+
+.country {
+  color: #dbeafe;
+  font-size: 0.9rem;
+  margin-bottom: 14px;
+}
+
+.temperature {
+  display: flex;
+  align-items: flex-start;
+  line-height: 1;
+}
+
+.temp-number {
+  font-size: 4.5rem;
   font-weight: 300;
-  color: var(--text-primary);
 }
 
-.wc-temp-unit {
-  font-size: 32px;
-  color: var(--accent);
-  margin-top: 12px;
+.temp-unit {
+  font-size: 1.7rem;
+  color: #93c5fd;
+  margin-top: 8px;
+  margin-left: 4px;
 }
 
-.wc-sensacion {
-  font-size: 14px;
-  color: var(--text-muted);
+.feels {
+  color: #c7d2fe;
+  font-size: 0.9rem;
+  margin-top: 8px;
 }
 
-.wc-stats {
-  margin-bottom: 24px;
-  gap: 10px !important;
+.weather-icon-box {
+  min-width: 120px;
+  text-align: center;
+  padding: 16px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.12);
 }
 
-.wc-stat {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 14px 10px;
+.weather-icon {
+  display: block;
+  font-size: 3.4rem;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 8px 18px rgba(255, 255, 255, 0.25));
+}
+
+.weather-icon-box p {
+  color: #e0f2fe;
+  font-size: 0.8rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.stat-item {
+  min-height: 86px;
+  padding: 12px 8px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.13);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   text-align: center;
 }
 
-.wc-stat-icon {
-  font-size: 22px;
+.stat-item span {
+  font-size: 1.3rem;
 }
 
-.wc-stat-val {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-primary);
+.stat-item strong {
+  font-size: 0.95rem;
 }
 
-.wc-stat-lbl {
-  font-size: 11px;
-  color: var(--text-muted);
+.stat-item small {
+  color: #cbd5e1;
+  font-size: 0.7rem;
 }
 
-.btn-favorito-activo {
-  background: rgba(239, 68, 68, 0.1) !important;
-  border-color: rgba(239, 68, 68, 0.4) !important;
-  color: #F87171 !important;
+.favorite-btn {
+  width: 100%;
+  margin-top: 16px;
+  border: 1px solid rgba(191, 219, 254, 0.5);
+  border-radius: 15px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #bfdbfe;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.25s;
 }
 
-@media (max-width: 600px) {
-  .wc-temp-num { font-size: 56px; }
-  .wc-ciudad { font-size: 22px; }
-  .wc-emoji { font-size: 44px; }
+.favorite-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.favorite-btn.active {
+  background: rgba(239, 68, 68, 0.18);
+  border-color: rgba(248, 113, 113, 0.7);
+  color: #fecaca;
+}
+
+@media (max-width: 650px) {
+  .weather-main {
+    flex-direction: column;
+  }
+
+  .weather-icon-box {
+    width: 100%;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .temp-number {
+    font-size: 3.6rem;
+  }
 }
 </style>

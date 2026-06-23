@@ -5,6 +5,7 @@
       :src="imageUrl"
       :alt="ciudad"
       class="city-image"
+      @error="onError"
     />
 
     <div class="city-overlay">
@@ -26,161 +27,123 @@ export default {
       type: String,
       required: true
     },
-
     pais: {
       type: String,
       default: ''
     }
   },
 
+  methods: {
+    normalize(text) {
+      return (text || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim()
+        .toLowerCase()
+    },
+
+    onError(e) {
+      e.target.src =
+        'https://images.unsplash.com/photo-1506744038136-46273834b3fb'
+    }
+  },
+
   computed: {
     imageUrl() {
-
       const imagenes = {
 
-        Santiago:
+        santiago:
           'https://upload.wikimedia.org/wikipedia/commons/7/78/Santiago_de_Chile.jpg',
 
-        Valparaíso:
+        valparaiso:
           'https://upload.wikimedia.org/wikipedia/commons/5/5f/Valparaiso.jpg',
 
-        Concepción:
+        concepcion:
           'https://upload.wikimedia.org/wikipedia/commons/6/67/Concepcion_Chile.jpg',
 
-        Antofagasta:
+        antofagasta:
           'https://upload.wikimedia.org/wikipedia/commons/3/38/Antofagasta.jpg',
 
-        Tokio:
-          'https://upload.wikimedia.org/wikipedia/commons/1/12/Tokyo_Skyline.jpg',
+        tokio:
+          'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf',
 
-        París:
-          'https://upload.wikimedia.org/wikipedia/commons/a/a8/Tour_Eiffel_Wikimedia_Commons.jpg',
+        paris:
+          'https://images.unsplash.com/photo-1502602898657-3e91760cbb34',
 
-        Londres:
-          'https://upload.wikimedia.org/wikipedia/commons/c/cd/London_Montage_L.jpg',
+        londres:
+          'https://images.unsplash.com/photo-1529655683826-aba9b3e77383',
 
-        Berlín:
-          'https://upload.wikimedia.org/wikipedia/commons/d/d9/Berlin_Brandenburg_Gate.jpg',
+        berlin:
+          'https://images.unsplash.com/photo-1560969184-10fe8719e047',
 
-        'Nueva York':
-          'https://upload.wikimedia.org/wikipedia/commons/4/47/New_york_times_square-terabass.jpg',
+        'nueva york':
+          'https://images.unsplash.com/photo-1522083165195-3424ed129620',
 
-        Sydney:
-          'https://upload.wikimedia.org/wikipedia/commons/b/b1/Sydney_Opera_House_Sails.jpg',
+        sydney:
+          'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9',
 
-        Roma:
-          'https://upload.wikimedia.org/wikipedia/commons/d/de/Roma_Piazza_Venezia.jpg',
+        roma:
+          'https://images.unsplash.com/photo-1529154036614-a60975f5c760',
 
-        Dubái:
-          'https://upload.wikimedia.org/wikipedia/commons/9/93/Dubai_skyline.jpg'
+        dubai:
+          'https://images.unsplash.com/photo-1512453979798-5ea266f8880c'
       }
 
-      return (
-        imagenes[this.ciudad] ||
+      const key = this.normalize(this.ciudad)
+
+      return imagenes[key] ||
         'https://images.unsplash.com/photo-1506744038136-46273834b3fb'
-      )
     }
   }
 }
 </script>
-
 <style scoped>
-
 .city-image-container {
-
   position: relative;
-
   width: 100%;
-
-  height: 420px;
-
+  height: 320px; /* 👈 controla tamaño */
   overflow: hidden;
-
   border-radius: 28px;
 
-  box-shadow:
-    0 20px 60px rgba(0,0,0,.35);
-
-  border:
-    1px solid rgba(255,255,255,.08);
+  box-shadow: 0 20px 60px rgba(0,0,0,.35);
 }
 
 .city-image {
-
   width: 100%;
   height: 100%;
-
   object-fit: cover;
-
-  transition: transform .5s ease;
-}
-
-.city-image-container:hover .city-image {
-  transform: scale(1.05);
+  display: block; /* 👈 evita comportamiento raro */
 }
 
 .city-overlay {
-
   position: absolute;
-
   inset: 0;
-
   display: flex;
-
   align-items: flex-end;
-
   padding: 2rem;
-
-  background:
-    linear-gradient(
-      to top,
-      rgba(0,0,0,.85),
-      rgba(0,0,0,.2),
-      transparent
-    );
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,.85),
+    rgba(0,0,0,.2),
+    transparent
+  );
 }
 
 .city-info {
-
-  backdrop-filter: blur(10px);
-
-  background:
-    rgba(0,0,0,.25);
-
-  padding: 16px 24px;
-
-  border-radius: 18px;
-
-  border:
-    1px solid rgba(255,255,255,.1);
+  background: rgba(0,0,0,.25);
+  padding: 12px 18px;
+  border-radius: 14px;
+  backdrop-filter: blur(8px);
+  color: white;
 }
 
 .city-info h2 {
-
-  color: white;
-
-  font-size: 2.3rem;
-
   margin: 0;
+  font-size: 1.8rem;
 }
 
 .city-info p {
-
-  color: rgba(255,255,255,.8);
-
-  margin-top: 6px;
+  margin: 4px 0 0;
+  opacity: .8;
 }
-
-@media (max-width:768px){
-
-  .city-image-container{
-    height:300px;
-  }
-
-  .city-info h2{
-    font-size:1.8rem;
-  }
-
-}
-
 </style>
