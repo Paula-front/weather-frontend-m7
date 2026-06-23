@@ -1,14 +1,11 @@
 <template>
   <nav class="navbar" :class="temaClass">
     <div class="navbar-container">
-
-      <!-- Logo -->
       <button class="navbar-brand navbar-button" @click="irInicio">
         <span class="brand-icon">🌤️</span>
         <span class="brand-text">ClimaApp</span>
       </button>
 
-      <!-- Links de navegación -->
       <div class="navbar-links">
         <button
           class="nav-link nav-button"
@@ -25,7 +22,9 @@
           active-class="nav-link-active"
         >
           ❤️ Favoritos
-          <span v-if="cantidadFavoritos > 0" class="fav-count">{{ cantidadFavoritos }}</span>
+          <span v-if="cantidadFavoritos > 0" class="fav-count">
+            {{ cantidadFavoritos }}
+          </span>
         </RouterLink>
 
         <RouterLink
@@ -38,7 +37,6 @@
         </RouterLink>
       </div>
 
-      <!-- Usuario o botón login -->
       <div class="navbar-user">
         <template v-if="isAuthenticated">
           <div class="user-info">
@@ -61,7 +59,6 @@
           </RouterLink>
         </template>
       </div>
-
     </div>
   </nav>
 </template>
@@ -128,11 +125,11 @@ export default {
 }
 
 .navbar-oscuro {
-  background: rgba(10, 15, 30, 0.85);
+  background: rgba(10, 15, 30, 0.9);
 }
 
 .navbar-claro {
-  background: rgba(239, 246, 255, 0.85);
+  background: rgba(239, 246, 255, 0.9);
 }
 
 .navbar-container {
@@ -169,7 +166,7 @@ export default {
 .brand-text {
   font-size: 18px;
   font-weight: 700;
-  background: linear-gradient(135deg, #60A5FA, #818CF8);
+  background: linear-gradient(135deg, #60a5fa, #818cf8);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -178,7 +175,7 @@ export default {
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   flex: 1;
   justify-content: center;
 }
@@ -187,14 +184,15 @@ export default {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 14px;
+  padding: 8px 14px;
   border-radius: 10px;
   text-decoration: none;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-secondary);
   transition: all 0.2s ease;
   position: relative;
+  white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -235,19 +233,19 @@ export default {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 13px;
   color: white;
-  font-weight: 600;
+  font-weight: 700;
   border: 2px solid rgba(255, 255, 255, 0.15);
 }
 
 .user-name {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-primary);
 }
 
@@ -255,13 +253,13 @@ export default {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 14px;
+  padding: 7px 14px;
   border-radius: 10px;
   border: 1px solid rgba(239, 68, 68, 0.3);
   background: rgba(239, 68, 68, 0.08);
   color: var(--danger);
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: inherit;
@@ -270,5 +268,76 @@ export default {
 .btn-logout:hover {
   background: rgba(239, 68, 68, 0.15);
   transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .navbar-container {
+    height: auto;
+    padding: 10px 14px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .navbar-brand {
+    order: 1;
+  }
+
+  .navbar-user {
+    order: 2;
+    margin-left: auto;
+    gap: 6px;
+  }
+
+  .navbar-links {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .brand-text {
+    font-size: 16px;
+  }
+
+  .brand-icon {
+    font-size: 22px;
+  }
+
+  .nav-link {
+    font-size: 13px;
+    padding: 7px 10px;
+  }
+
+  .btn-sm {
+    font-size: 12px;
+    padding: 7px 10px;
+  }
+
+  .user-name {
+    display: none;
+  }
+}
+
+@media (max-width: 430px) {
+  .navbar-container {
+    padding: 10px;
+  }
+
+  .navbar-user {
+    gap: 5px;
+  }
+
+  .navbar-links {
+    gap: 4px;
+  }
+
+  .nav-link {
+    font-size: 12px;
+    padding: 6px 9px;
+  }
+
+  .btn-sm {
+    font-size: 11px;
+    padding: 6px 8px;
+  }
 }
 </style>
