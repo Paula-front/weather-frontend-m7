@@ -46,6 +46,32 @@
       </div>
     </section>
 
+    <section class="features-section">
+      <div class="feature-card">
+        <span>🌡️</span>
+        <h3>Clima en tiempo real</h3>
+        <p>Consulta temperatura, humedad, viento y sensación térmica.</p>
+      </div>
+
+      <div class="feature-card">
+        <span>📅</span>
+        <h3>Pronóstico semanal</h3>
+        <p>Revisa la evolución del clima durante los próximos días.</p>
+      </div>
+
+      <div class="feature-card">
+        <span>⭐</span>
+        <h3>Favoritos</h3>
+        <p>Guarda tus ciudades preferidas al iniciar sesión.</p>
+      </div>
+
+      <div class="feature-card">
+        <span>🌎</span>
+        <h3>Chile y mundo</h3>
+        <p>Explora ciudades chilenas y capitales internacionales.</p>
+      </div>
+    </section>
+
     <section
       v-if="isAuthenticated && favoritos.length"
       class="favorites-section"
@@ -458,6 +484,46 @@ export default {
   font-weight: 700;
 }
 
+.features-section {
+  max-width: 1180px;
+  margin: 0 auto 24px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid #dbeafe;
+  border-radius: 22px;
+  padding: 20px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  transition: 0.25s;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 38px rgba(37, 99, 235, 0.14);
+}
+
+.feature-card span {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.feature-card h3 {
+  color: #0f172a;
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.feature-card p {
+  color: #64748b;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
 .favorites-section {
   max-width: 1180px;
   margin: 0 auto 24px;
@@ -657,6 +723,10 @@ export default {
   .sugerencias {
     width: calc(100% - 48px);
   }
+
+  .features-section {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 620px) {
@@ -675,6 +745,10 @@ export default {
 
   .coords {
     flex-direction: column;
+  }
+
+  .features-section {
+    grid-template-columns: 1fr;
   }
 }
 </style>
