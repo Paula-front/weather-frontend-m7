@@ -3,16 +3,20 @@
     <div class="navbar-container">
 
       <!-- Logo -->
-      <RouterLink to="/" class="navbar-brand">
+      <button class="navbar-brand navbar-button" @click="irInicio">
         <span class="brand-icon">🌤️</span>
         <span class="brand-text">ClimaApp</span>
-      </RouterLink>
+      </button>
 
       <!-- Links de navegación -->
       <div class="navbar-links">
-        <RouterLink to="/" class="nav-link" active-class="nav-link-active" exact>
+        <button
+          class="nav-link nav-button"
+          :class="{ 'nav-link-active': $route.path === '/' }"
+          @click="irInicio"
+        >
           🏠 Inicio
-        </RouterLink>
+        </button>
 
         <RouterLink
           v-if="isAuthenticated"
@@ -41,14 +45,17 @@
             <div class="user-avatar">{{ iniciales }}</div>
             <span class="user-name">{{ usuarioActual.nombre }}</span>
           </div>
+
           <button class="btn-logout" @click="cerrarSesion">
             🚪 Salir
           </button>
         </template>
+
         <template v-else>
           <RouterLink to="/login" class="btn btn-outline btn-sm">
             Iniciar sesión
           </RouterLink>
+
           <RouterLink to="/registro" class="btn btn-primary btn-sm">
             Registrarse
           </RouterLink>
@@ -64,22 +71,47 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'Navbar',
+
   computed: {
-    ...mapGetters('auth', ['isAuthenticated', 'usuarioActual', 'favoritos']),
+    ...mapGetters('auth', [
+      'isAuthenticated',
+      'usuarioActual',
+      'favoritos'
+    ]),
+
     temaClass() {
-      return this.usuarioActual?.preferencias?.tema === 'light' ? 'navbar-claro' : 'navbar-oscuro'
+      return this.usuarioActual?.preferencias?.tema === 'light'
+        ? 'navbar-claro'
+        : 'navbar-oscuro'
     },
+
     iniciales() {
       if (!this.usuarioActual) return ''
       return this.usuarioActual.nombre.substring(0, 2).toUpperCase()
     },
+
     cantidadFavoritos() {
       return this.favoritos?.length || 0
     }
   },
+
   methods: {
+    irInicio() {
+      this.$store.commit('weather/LIMPIAR_CLIMA')
+
+      if (this.$route.path !== '/') {
+        this.$router.push('/')
+      }
+
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+    },
+
     async cerrarSesion() {
       await this.$store.dispatch('auth/logout')
+      this.$store.commit('weather/LIMPIAR_CLIMA')
       this.$router.push('/login')
     }
   }
@@ -120,6 +152,14 @@ export default {
   gap: 8px;
   text-decoration: none;
   flex-shrink: 0;
+}
+
+.navbar-button,
+.nav-button {
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  cursor: pointer;
 }
 
 .brand-icon {
