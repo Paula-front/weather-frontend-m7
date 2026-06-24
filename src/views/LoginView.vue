@@ -230,7 +230,11 @@ export default {
   font-size: 34px;
   font-weight: 900;
   background: linear-gradient(135deg, #60a5fa, #818cf8);
+
+  background-clip: text;
   -webkit-background-clip: text;
+
+  color: transparent;
   -webkit-text-fill-color: transparent;
 }
 
